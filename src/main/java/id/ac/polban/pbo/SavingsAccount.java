@@ -1,6 +1,6 @@
 package id.ac.polban.pbo;
 
-public class SavingsAccount extends BankAccount {
+public class SavingsAccount extends BankAccount implements Taxable {
     public static final double MIN_BALANCE = 50_000;
     private final double interestRate;
 
@@ -23,5 +23,11 @@ public class SavingsAccount extends BankAccount {
 
     public void addInterest() {
         balance += balance * interestRate;
+    }
+
+    @Override
+    public double tax() {
+        double interest = getBalance() * interestRate;
+        return interest * 0.20;
     }
 }

@@ -53,4 +53,13 @@ class SavingsAccountTest {
         assertEquals("Bunga tidak boleh negatif", ex.getMessage());
     }
 
+    @Test
+    void tax_menghitungPajakDuaPuluhPersenDariBunga() {
+        Taxable taxable = savings; 
+        // Act
+        double actualTax = taxable.tax();
+        // Assert
+        assertEquals(1_000, actualTax, 0.001);
+    }
+
 }
