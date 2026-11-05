@@ -42,4 +42,15 @@ class SavingsAccountTest {
         savings.addInterest();
         assertEquals(105_000, savings.getBalance(), 0.001);
     }
+
+    @Test
+    void constructor_bungaNegatif_melemparIllegalArgumentDenganPesanBenar() {
+        IllegalArgumentException ex = assertThrows(
+            IllegalArgumentException.class,
+            () -> new SavingsAccount("005", "Eka", 100_000, -0.01)
+        );
+
+        assertEquals("Bunga tidak boleh negatif", ex.getMessage());
+    }
+
 }
