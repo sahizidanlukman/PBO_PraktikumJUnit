@@ -38,6 +38,9 @@ public class BankAccount {
         if (target == null) {
             throw new IllegalArgumentException("Rekening tujuan tidak boleh null");
         }
+        if (target == this) {
+            throw new IllegalArgumentException("Tidak dapat transfer ke rekening sendiri");
+        }
         withdraw(amount);
         target.deposit(amount);
     }

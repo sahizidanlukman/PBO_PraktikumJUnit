@@ -64,6 +64,15 @@ class BankAccountTest {
                 sender.transfer(null, 20_000));
             assertEquals(100_000, sender.getBalance(), 0.001); 
         }
+
+        @Test
+        @DisplayName("transfer ke rekening sendiri ditolak dan saldo tidak berubah")
+        void transfer_keDiriSendiri_ditolak() {
+
+            assertThrows(IllegalArgumentException.class, () -> 
+                sender.transfer(sender, 20_000));
+            assertEquals(100_000, sender.getBalance(), 0.001); 
+        }
     }
 
     @Test
