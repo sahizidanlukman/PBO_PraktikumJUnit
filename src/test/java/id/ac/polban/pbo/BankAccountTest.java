@@ -55,9 +55,16 @@ class BankAccountTest {
             assertEquals(100_000, sender.getBalance(), 0.001);
             assertEquals(0, receiver.getBalance(), 0.001);
         }
+        
+        @Test
+        @DisplayName("transfer ke rekening null melempar IllegalArgumentException dan saldo tetap")
+        void transfer_keRekeningNull_ditolak() {
+            
+            assertThrows(IllegalArgumentException.class, () -> 
+                sender.transfer(null, 20_000));
+            assertEquals(100_000, sender.getBalance(), 0.001); 
+        }
     }
-
-    // --- method test dari Percobaan 1 dan 2 ---
 
     @Test
     void constructor_menyimpanDataDenganBenar() {
@@ -118,7 +125,7 @@ class BankAccountTest {
         "50000, 25000.5, 24999.5",
         "100000, 0.01, 99999.99"
     })
-    
+
     void withdraw_berbagaiNilai(double awal, double tarik, double sisa)
             throws InsufficientBalanceException {
         BankAccount acc = new BankAccount("009", "Dewi", awal);
