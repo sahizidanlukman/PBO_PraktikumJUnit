@@ -2,6 +2,8 @@ package id.ac.polban.pbo;
 
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
 
 @DisplayName("Pengujian kelas BankAccount")
 class BankAccountTest {
@@ -101,5 +103,26 @@ class BankAccountTest {
     void constructor_saldoAwalNegatif_ditolak() {
         assertThrows(IllegalArgumentException.class,
             () -> new BankAccount("001", "Andi", -1));
+    }
+
+    @ParameterizedTest(name = "setoran {0} ditolak")
+    @ValueSource(doubles = {0, -1, -50_000})
+    void deposit_tidakValid(double amount) {
+        assertThrows(IllegalArgumentException.class, () -> sender.deposit(amount));
+    }
+
+    @ParameterizedTest(name = "saldo {0} - tarik {1} = {2}")
+    @CsvSource({
+        "100000, 10000, 90000",
+        "100000, 100000, 0",
+        "50000, 25000.5, 24999.5",
+        "100000, 0.01, 99999.99"
+    })
+    
+    void withdraw_berbagaiNilai(double awal, double tarik, double sisa)
+            throws InsufficientBalanceException {
+        BankAccount acc = new BankAccount("009", "Dewi", awal);
+        acc.withdraw(tarik);
+        assertEquals(sisa, acc.getBalance(), 0.001);
     }
 }
